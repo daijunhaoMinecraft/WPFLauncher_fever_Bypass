@@ -29,8 +29,10 @@
 然后去到[我的世界官网](https://mc.163.com)<br />
 ![image](https://github.com/daijunhaoMinecraft/WPFLauncher_fever_Bypass/assets/121751847/de904b6c-5b9d-4273-98ce-142ed77a92d9)<br />
 ![image](https://github.com/daijunhaoMinecraft/WPFLauncher_fever_Bypass/assets/121751847/c1b82f4b-3f1d-4e79-ba10-7ddb1e5d533e)<br />
-![image](https://github.com/daijunhaoMinecraft/WPFLauncher_fever_Bypass/assets/121751847/6c2738f3-c18c-4cc3-b2de-f88ea4d5c03e)
-之后去掉Release,下载最新版WPFLauncher_Loader.7z,全部解压<br />
+![image](https://github.com/daijunhaoMinecraft/WPFLauncher_fever_Bypass/assets/121751847/6c2738f3-c18c-4cc3-b2de-f88ea4d5c03e)<br />
+之后去到Release,下载最新版WPFLauncher_Loader.7z,全部解压<br />
 之后保存到一个路径下,因为你每次启动游戏都要打开WPFLauncher_Loader.exe这个文件,同时你也要确保这个exe所在的文件夹下有server.crt和server.key这俩个文件<br />
 然后打开WPFLauncher_Loader.exe,刚开始会让你下载替换包,后面每次启动就不会了(除非启动器重装)
 # 效果展示
+![image](https://github.com/daijunhaoMinecraft/WPFLauncher_fever_Bypass/assets/121751847/7a80e3f6-5eae-4438-bbfa-7d39f0bbab58)<br />
+游戏是可以正常登录的
