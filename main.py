@@ -1,15 +1,15 @@
+# -*- coding:utf-8 -*-
 import http.server
 import json
 import socketserver
 import ssl
 import sys
 import re
-import threading
 import winreg
 import os
 import win32api
 import time
-import requests,certifi
+import requests
 from urllib.parse import urlparse
 from tqdm.rich import tqdm
 import psutil
@@ -83,7 +83,7 @@ def download_nofilename(url, save):
     while True:
         try:
             # 下载文件
-            download_file = requests.get(url,headers=headers,verify=certifi.where(),stream=True)
+            download_file = requests.get(url,headers=headers,verify=False,stream=True)
             break
         except Exception:
             # 下载失败，重新下载
@@ -109,7 +109,7 @@ def get_def(url):
         f.write(get_hosts)
         f.close()
     # 获取指定url的内容
-    get_content = requests.get(url,headers={"Host": "x19.update.netease.com"},verify=certifi.where()).text
+    get_content = requests.get(url,headers={"Host": "x19.update.netease.com"},verify=False).text
     # 打开系统hosts文件，添加一条规则
     with open(r"C:\Windows\System32\drivers\etc\hosts", "a+", encoding="utf-8") as f:
         f.write("\n127.0.0.1 x19.update.netease.com")
@@ -173,6 +173,14 @@ except Exception as e:
             process = subprocess.Popen(f'"{pathx_pyinstaller}\\{os.path.basename(get_wpflauncher_installer)}" /silent /verisilent /norestart',stdout=subprocess.PIPE, universal_newlines=True, encoding="utf-8")
             process.wait()
             print("安装完成")
+print("正在检测端口占用情况")
+port = 443
+process = find_process_by_port(port)
+if process:
+    kill_process(process)
+else:
+    print(f"恭喜,未发现443端口被占用的情况")
+print("端口占用检测完成,正在启动游戏...")
 print("检查更新")
 data = requests.get("https://x19.update.netease.com/pl/x19_java_patchlist",headers=headers,verify=False).text
 # 去掉文本开头和结尾的三重引号
@@ -185,6 +193,7 @@ data = data.replace("'", '"')
 data = '{' + data + '}'
 # 转换为JSON格式
 json_data = json.loads(data)
+# 获取json_data中版本号排序后的最后一个版本号
 get_Latest_version = sorted(json_data.keys(), key=lambda x: tuple(map(int, x.split('.'))))[-1]
 key_netease = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Netease\MCLauncher')
 netease_path = winreg.QueryValueEx(key_netease, "InstallLocation")[0]
@@ -215,15 +224,10 @@ else:
     with SevenZipFile(f"{pathx_pyinstaller}\\{os.path.basename(get_netease_patch_url)}", 'r') as archive:
         archive.extractall(path=netease_path)
     print("完成,正在启动游戏")"""
-
-print("正在检测端口占用情况")
-port = 443
-process = find_process_by_port(port)
-if process:
-    kill_process(process)
-else:
-    print(f"恭喜,未发现443端口被占用的情况")
-print("端口占用检测完成,正在启动游戏...")
+print("终止WPFLauncher.exe进程...")
+os.system("taskkill /im WPFLauncher.exe /f")
+os.system("taskkill /im WPFLauncher.exe /f")
+print("完成,正在启动游戏")
 # 定义一个请求处理程序，继承自 SimpleHTTPRequestHandler
 class MyHandler(http.server.SimpleHTTPRequestHandler):
     # 重写do_GET方法，处理GET请求
