@@ -1,0 +1,6 @@
+certifi
+psutil
+py7zr
+requests
+tqdm
+rich
