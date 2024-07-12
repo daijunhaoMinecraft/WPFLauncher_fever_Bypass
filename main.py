@@ -4,7 +4,6 @@ import socketserver
 import ssl
 import sys
 import re
-import threading
 import winreg
 import os
 import win32api
