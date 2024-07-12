@@ -1,10 +1,10 @@
-# -*- coding:utf-8 -*-
 import http.server
 import json
 import socketserver
 import ssl
 import sys
 import re
+import threading
 import winreg
 import os
 import win32api
@@ -83,11 +83,11 @@ def download_nofilename(url, save):
     while True:
         try:
             # 下载文件
-            download_file = requests.get(url,headers=headers,verify=False,stream=True)
+            download_file = requests.get(url,headers=headers,verify=False,stream=True,timeout=60)
             break
         except Exception:
             # 下载失败，重新下载
-            print("下载失败,正在重新下载,重连次数:")
+            print(f"下载失败,正在重新下载,重连次数:{str(reset_connect)}")
             reset_connect += 1
     # 获取文件大小
     download_file_size = int(download_file.headers['Content-Length'])/1024
@@ -168,9 +168,9 @@ except Exception as e:
         get_wpflauncher_installer = match.group(1)
         print(f"获取到我的世界启动器安装包下载地址:{get_wpflauncher_installer},正在下载")
         download_nofilename(get_wpflauncher_installer,pathx_pyinstaller)
-        if os.path.exists(f"{pathx_pyinstaller}\\{os.path.basename(get_wpflauncher_installer)}"):
+        if os.path.exists(f"{pathx_pyinstaller}\\{os.path.basename(urlparse(get_wpflauncher_installer).path)}"):
             print("下载完成,正在执行静默安装")
-            process = subprocess.Popen(f'"{pathx_pyinstaller}\\{os.path.basename(get_wpflauncher_installer)}" /silent /verisilent /norestart',stdout=subprocess.PIPE, universal_newlines=True, encoding="utf-8")
+            process = subprocess.Popen(f'"{pathx_pyinstaller}\\{os.path.basename(urlparse(get_wpflauncher_installer).path)}" /silent /verisilent /norestart',stdout=subprocess.PIPE, universal_newlines=True, encoding="utf-8")
             process.wait()
             print("安装完成")
 print("正在检测端口占用情况")
