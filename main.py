@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import http.server
 import json
 import socketserver
@@ -12,9 +13,11 @@ import requests
 from urllib.parse import urlparse
 from tqdm.rich import tqdm
 import psutil
+
 import subprocess
 import warnings
 from py7zr import SevenZipFile
+import ctypes
 warnings.simplefilter("ignore")
 import atexit
 @atexit.register
@@ -25,6 +28,27 @@ def atexit_fun():
     # 打开C:\Windows\System32\drivers\etc\hosts文件，写入内容
     with open(r"C:\Windows\System32\drivers\etc\hosts", "w", encoding="utf-8") as f:
         f.write(get_hosts)
+
+# admin test
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+#testfor Admin?
+if is_admin():
+    pass
+else:
+    print("请以管理员身份运行此程序,按任意键退出")
+    input()
+    sys.exit()
+
+# 打开C:\Windows\System32\drivers\etc\hosts文件，读取内容
+with open(r"C:\Windows\System32\drivers\etc\hosts", "r", encoding="utf-8") as f:
+    get_hosts = f.read().replace("\n127.0.0.1 x19.update.netease.com", "")
+# 打开C:\Windows\System32\drivers\etc\hosts文件，写入内容
+with open(r"C:\Windows\System32\drivers\etc\hosts", "w", encoding="utf-8") as f:
+    f.write(get_hosts)
 
 # 定义一个函数，用于根据端口号查找进程
 def find_process_by_port(port):
@@ -168,10 +192,22 @@ except Exception as e:
         print(f"获取到我的世界启动器安装包下载地址:{get_wpflauncher_installer},正在下载")
         download_nofilename(get_wpflauncher_installer,pathx_pyinstaller)
         if os.path.exists(f"{pathx_pyinstaller}\\{os.path.basename(urlparse(get_wpflauncher_installer).path)}"):
-            print("下载完成,正在执行静默安装")
-            process = subprocess.Popen(f'"{pathx_pyinstaller}\\{os.path.basename(urlparse(get_wpflauncher_installer).path)}" /silent /verisilent /norestart',stdout=subprocess.PIPE, universal_newlines=True, encoding="utf-8")
-            process.wait()
-            print("安装完成")
+            print("下载完成,请选择安装方式\n")
+            print("1 - 静默安装(默认安装在C盘)\n2 - 手动安装(打开安装程序)\n\n若选择了第二个选项,那么会自动打开安装程序并退出本程序(安装好后请自行打开本程序)")
+            while True:
+                get_user_choice = input("请选择:")
+                if get_user_choice == "1":
+                    process = subprocess.Popen(f'"{pathx_pyinstaller}\\{os.path.basename(urlparse(get_wpflauncher_installer).path)}" /silent /verisilent /norestart',stdout=subprocess.PIPE, universal_newlines=True, encoding="utf-8")
+                    process.wait()
+                    print("安装完成")
+                    break
+                elif get_user_choice == "2":
+                    os.startfile(f"{pathx_pyinstaller}\\{os.path.basename(urlparse(get_wpflauncher_installer).path)}")
+                    print("按Enter键退出,安装好后打开本程序")
+                    input()
+                    sys.exit()
+                else:
+                    print("输入错误,请重新输入")
 print("正在检测端口占用情况")
 port = 443
 process = find_process_by_port(port)
