@@ -1,4 +1,4 @@
-certifi
+pywin32
 psutil
 py7zr
 requests
