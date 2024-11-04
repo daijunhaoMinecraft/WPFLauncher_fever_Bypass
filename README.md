@@ -1,6 +1,7 @@
 # WPFLauncher_fever_Bypass
 网易我的世界发烧平台绕过<br />
-**请注意:此软件里面含有修改hosts操作,所以使用此软件需要以管理员身份运行!**
+**请注意:此软件里面含有修改hosts操作,所以使用此软件需要以管理员身份运行!**<br />
+**此方法目前暂时不进行维护(主要原因是能稳定很久),这边建议使用功能更强大的[网易我的世界Hook注入](https://github.com/daijunhaoMinecraft/WPFLauncher_Hook)(需安装[.NET6.0的sdk](https://dotnet.microsoft.com/zh-cn/download/dotnet/thank-you/sdk-6.0.425-windows-x86-installer)),该项目会进行长期维护**<br />
 # 事情起因
 由于我实在受不了发烧平台<br />
 于是就去B站搜发烧平台绕过方法,结果<br />
